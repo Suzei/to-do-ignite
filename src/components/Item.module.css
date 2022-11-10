@@ -1,0 +1,53 @@
+.item {
+  background-color: #262626;
+  color: white;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.item button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 2px;
+  align-items: center;
+  color: #808080;
+}
+
+.item div {
+  display: flex;
+  gap: 1rem;
+}
+
+.item span {
+  color: white;
+  line-break: anywhere;
+}
+
+.radio {
+  width: 1.3rem;
+  height: 1.3rem;
+  background-color: transparent;
+  border-radius: 100%;
+  border: 1px solid #4ea8de;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.radio:checked {
+  background-color: #5e60ce;
+  border: 1px solid #5e60ce;
+  text-decoration: dashed;
+}
+
+.radio:checked ~ span {
+  text-decoration: line-through;
+  color: #808080;
+}
