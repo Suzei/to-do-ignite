@@ -6,46 +6,43 @@ import { Item } from './Item'
 import styles from './ItemList.module.css'
 
 interface TaskProps {
-    uuid: string;
-    task?: string
+    id: string;
+    task: string
 }
 
-interface ItemListProps {
-    isChecked?: boolean;
-}
  
-export function ItemList({}: ItemListProps) {
+export function ItemList({}: TaskProps) {
   
-    const [tasks, setTasks] = useState<string[]>([])
-    const [newTask, setNewTask] = useState('')
-    const [counterfinishedTask, setCounterFinishedTask] = useState(0)
-    const [isChecked, setIsChecked] = useState<boolean>()
+    const [tasks, setTasks] = useState<TaskProps[]>([])
+    const [taskName, setTaskName] = useState('')
+    const [isComplete, setIsComplete] = useState<boolean>()
+    const [n, setN] = useState(0)
+
+
     function handleTaskName(event: ChangeEvent<HTMLInputElement>) {
-        setNewTask(event.target.value)
-    }
-
-    function handleTaskFinished() {
-        setIsChecked(true)
-
-        if (isChecked) {
-            setCounterFinishedTask((state) => state + 1)
-        }
+        setTaskName(event.target.value)
     }
 
     function handleAddTask(event: FormEvent) {
         event.preventDefault()
-        if (newTask) {
+        const newTask = {
+            id: uuidv4(),
+            task: taskName,
+            isComplete: isComplete
+        }
+        if (taskName) {
             setTasks((state) => [...state, newTask])        
             
         } 
 
-        setNewTask('')
+        setTaskName('')
     }
 
     function deleteTask(taskToDelete: string) {
-        const deleteTask = tasks.filter((task: string) => {
-            return task !== taskToDelete
+        const deleteTask = tasks.filter(({id}) => {
+            return id !== taskToDelete
         })
+        console.log(deleteTask)
 
         setTasks(deleteTask)
     }
@@ -53,7 +50,7 @@ export function ItemList({}: ItemListProps) {
     return (
         <div className={styles.list}>
             <form className={styles.createTask}>
-                <input required type="text" value={newTask} onChange={ handleTaskName } placeholder='Adicione uma nova tarefa' />
+                <input required type="text" value={taskName} onChange={ handleTaskName } placeholder='Adicione uma nova tarefa' />
                 <button onClick={handleAddTask}>Criar <PlusCircle size={ 23 } /></button>
             </form>
             <header>
@@ -64,7 +61,7 @@ export function ItemList({}: ItemListProps) {
 
                 <div>
                     <span>Tarefas Concluídas</span>
-                    <strong>{counterfinishedTask} de { tasks.length }</strong>
+                    <strong>{} de { tasks.length }</strong>
                 </div>
             </header>
 
@@ -74,9 +71,11 @@ export function ItemList({}: ItemListProps) {
                     <img src={Clipboard} alt="" />
                     <strong>Você ainda não tem tarefas cadastradas</strong>
                     <span>Crie tarefas e organize seus itens a fazer</span>
-                </>
-                ) : (                           
-                    tasks.map(item => <Item key={uuidv4()} deleteTask={deleteTask} task={ item } />)            
+                    </>
+                ) : 
+                ( 
+                        
+                    tasks.map(item => <Item key={item.id} id={item.id} deleteTask={deleteTask} task={ item.task }/>)            
                 )}
             </main>
         </div>

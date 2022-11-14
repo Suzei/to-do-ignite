@@ -4,13 +4,15 @@ import styles from './Item.module.css'
 interface ItemProps {
     task: string; 
     deleteTask: (task: string) => void;
+    id: string;
+    
 }
 
-export function Item({ task, deleteTask }: ItemProps) {
+export function Item({ task, deleteTask, id }: ItemProps) {
     
 
     function handleTaskDelete() {
-        deleteTask(task)
+        deleteTask(id)
     }
 
     return (
